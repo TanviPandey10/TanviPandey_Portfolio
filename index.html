@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanvi Pandey — AI &amp; Full-Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12161C;
+    --ink-2:#1A2028;
+    --paper:#EDEEF0;
+    --paper-2:#F7F8F9;
+    --amber:#F0AC46;
+    --amber-dim:#8A6423;
+    --teal:#2E9C82;
+    --teal-deep:#1B4B43;
+    --wire:#9098A3;
+    --wire-soft:#D7DAE0;
+    --wire-dark:#333B45;
+    --radius:2px;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{ color:inherit; }
+  ::selection{ background:var(--amber); color:var(--ink); }
+  :focus-visible{ outline:2px solid var(--teal); outline-offset:3px; }
+
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:var(--paper); }
+  ::-webkit-scrollbar-thumb{ background:var(--wire); border-radius:6px; }
+  ::-webkit-scrollbar-thumb:hover{ background:var(--teal-deep); }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--teal); display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{ content:""; width:16px; height:1px; background:var(--teal); }
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal:nth-child(2){ transition-delay:0.08s; }
+  .reveal:nth-child(3){ transition-delay:0.16s; }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    transition:background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+    border-bottom:1px solid transparent;
+  }
+  header.scrolled{
+    background:rgba(237,238,240,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--wire-soft);
+  }
+  nav{
+    max-width:1080px; margin:0 auto; padding:18px 28px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .logo{
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:18px;
+    letter-spacing:-0.01em; color:var(--paper);
+    transition:color 0.3s ease;
+  }
+  header.scrolled .logo{ color:var(--ink); }
+  .logo span{ color:var(--amber); }
+  .nav-links{ display:flex; gap:32px; list-style:none; font-family:'IBM Plex Mono', monospace; font-size:13px; }
+  .nav-links a{
+    text-decoration:none; color:var(--paper); position:relative; padding-bottom:2px;
+    transition:color 0.3s ease;
+  }
+  header.scrolled .nav-links a{ color:var(--ink); }
+  .nav-links a.active{ color:var(--amber) !important; }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-2px; width:0; height:1px;
+    background:var(--amber); transition:width 0.25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+  .nav-cta{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; text-decoration:none;
+    border:1px solid var(--paper); color:var(--paper);
+    padding:8px 16px; border-radius:var(--radius);
+    transition:background 0.2s ease, color 0.2s ease, border-color 0.3s ease;
+    white-space:nowrap;
+  }
+  header.scrolled .nav-cta{ border-color:var(--ink); color:var(--ink); }
+  .nav-cta:hover{ background:var(--amber); color:var(--ink); border-color:var(--amber); }
+  @media (max-width:720px){ .nav-links{ display:none; } }
+
+  /* ---------- HERO (dark) ---------- */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(46,156,130,0.16), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(240,172,70,0.10), transparent 60%),
+      var(--ink);
+    color:var(--paper);
+    padding:150px 0 90px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse 800px 500px at 30% 20%, black, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:40px; align-items:center;
+  }
+  @media (max-width:860px){ .hero-inner{ grid-template-columns:1fr; } }
+
+  .role-line{
+    font-family:'IBM Plex Mono', monospace; font-size:14px; color:var(--amber);
+    margin:20px 0 18px; height:20px; display:flex; align-items:center;
+  }
+  .role-line .cursor{
+    display:inline-block; width:8px; height:15px; background:var(--amber);
+    margin-left:2px; animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero h1{
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    font-size:clamp(36px, 5.2vw, 58px); line-height:1.06; letter-spacing:-0.02em;
+    margin-bottom:22px;
+  }
+  .hero h1 em{ font-style:normal; color:var(--teal); }
+  .hero p.lede{ font-size:17px; color:#B9C0C8; max-width:500px; margin-bottom:34px; }
+
+  .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn-primary, .btn-secondary{
+    font-family:'IBM Plex Mono', monospace; font-size:13px; text-decoration:none;
+    padding:13px 22px; border-radius:var(--radius); display:inline-flex; align-items:center; gap:8px;
+    transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  }
+  .btn-primary{ background:var(--amber); color:var(--ink); border:1px solid var(--amber); font-weight:500; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 6px 0 var(--teal-deep); }
+  .btn-secondary{ background:transparent; color:var(--paper); border:1px solid var(--wire-dark); }
+  .btn-secondary:hover{ border-color:var(--paper); }
+
+  /* Interactive pipeline */
+  .pipeline-box{
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--wire-dark);
+    border-radius:6px;
+    padding:26px 20px 18px;
+    backdrop-filter:blur(2px);
+  }
+  .pipeline-box .cap{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--wire);
+    letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .pipeline-box .hint{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--wire-dark);
+    margin-bottom:6px;
+  }
+  svg.pipeline{ width:100%; height:auto; display:block; overflow:visible; }
+  .node-label{ font-family:'IBM Plex Mono', monospace; font-size:12px; fill:var(--paper); font-weight:500; }
+  .node-sub{ font-family:'IBM Plex Mono', monospace; font-size:9.5px; fill:var(--wire); }
+  .pipe-line{ stroke:var(--wire-dark); stroke-width:2; fill:none; }
+  .pipe-dot{ fill:var(--amber); }
+  .node-circle{
+    fill:var(--ink-2); stroke:var(--teal); stroke-width:1.6; cursor:pointer;
+    transition:stroke 0.2s ease, fill 0.2s ease, r 0.2s ease;
+  }
+  .node-group:hover .node-circle{ stroke:var(--amber); fill:var(--amber-dim); r:12; }
+  .node-group:hover .node-label{ fill:var(--amber); }
+  .node-group{ cursor:pointer; }
+
+  @media (prefers-reduced-motion: no-preference){
+    .motion-path{ animation: travel 5s linear infinite; offset-path: path("M20,110 C 110,110 110,30 200,30 S 290,190 380,190 S 460,110 550,110"); }
+  }
+  @keyframes travel{
+    0%{ offset-distance:0%; opacity:0; }
+    5%{ opacity:1; }
+    95%{ opacity:1; }
+    100%{ offset-distance:100%; opacity:0; }
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:88px 0; }
+  .section-head{ margin-bottom:44px; }
+  .section-head h2{
+    font-family:'Space Grotesk', sans-serif; font-size:clamp(26px,3.4vw,34px);
+    font-weight:600; letter-spacing:-0.01em; margin-top:10px;
+  }
+  .divider{ height:1px; background:repeating-linear-gradient(90deg, var(--wire) 0 6px, transparent 6px 12px); }
+
+  /* ---------- WORK (notebook cells) ---------- */
+  .cell{
+    background:var(--paper-2); border:1px solid var(--wire-soft); border-radius:3px;
+    margin-bottom:22px; overflow:hidden; position:relative;
+    transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .cell:hover{
+    transform:translateY(-4px);
+    box-shadow:0 14px 30px -14px rgba(18,22,28,0.35);
+    border-color:var(--teal);
+  }
+  .cell-num{
+    position:absolute; right:20px; top:16px;
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:34px;
+    color:var(--wire-soft); z-index:0; user-select:none;
+  }
+  .cell-head{
+    display:flex; align-items:center; justify-content:space-between; padding:12px 20px;
+    border-bottom:1px solid var(--wire-soft); font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:var(--wire); position:relative; z-index:1;
+  }
+  .cell-head .prompt{ color:var(--teal); }
+  .cell-body{ padding:24px 24px 26px; position:relative; z-index:1; }
+  .cell-body h3{ font-family:'Space Grotesk', sans-serif; font-size:20px; font-weight:600; margin-bottom:10px; }
+  .cell-body p{ color:#3B4048; font-size:15px; margin-bottom:14px; max-width:640px; }
+  .tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; padding:4px 9px;
+    background:var(--paper); border:1px solid var(--wire-soft); border-radius:2px; color:var(--ink);
+    transition:border-color 0.2s ease, color 0.2s ease;
+  }
+  .cell:hover .tag{ border-color:var(--teal); }
+  .result{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--teal-deep); display:flex; align-items:center; gap:6px; font-weight:500; }
+  .result::before{ content:"→"; }
+  .cell-links{ margin-top:14px; }
+  .cell-links a{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; text-decoration:underline; text-underline-offset:3px; color:var(--ink); }
+  .live-badge{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; background:var(--teal-deep); color:var(--paper);
+    padding:2px 8px; border-radius:20px; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px;
+  }
+  .live-dot{ width:6px; height:6px; border-radius:50%; background:#5FE0BE; animation:pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.4; transform:scale(0.7); } }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; }
+  @media (max-width:800px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-grid p{ color:#3B4048; font-size:15.5px; margin-bottom:16px; max-width:520px; }
+  .skill-group{ margin-bottom:18px; }
+  .skill-group .k{ font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--wire); margin-bottom:8px; }
+  .skill-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; padding:5px 10px;
+    border:1px solid var(--wire-soft); border-radius:2px; transition:all 0.2s ease;
+  }
+  .chip:hover{ background:var(--teal-deep); color:var(--paper); border-color:var(--teal-deep); }
+  .edu-line{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--wire);
+    margin-top:22px; border-top:1px solid var(--wire-soft); padding-top:16px;
+  }
+  .edu-line strong{ color:var(--ink); font-weight:500; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-box{
+    background:var(--ink); color:var(--paper); border-radius:6px; padding:56px 44px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .contact-box::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(ellipse 500px 300px at 90% 0%, rgba(46,156,130,0.18), transparent 70%);
+    pointer-events:none;
+  }
+  @media (max-width:800px){ .contact-box{ grid-template-columns:1fr; padding:40px 26px; } }
+  .contact-box h2{ font-family:'Space Grotesk', sans-serif; font-size:clamp(26px,3.6vw,36px); font-weight:600; margin-bottom:14px; line-height:1.15; position:relative; }
+  .contact-box p{ color:#B9C0C8; font-size:15px; max-width:420px; position:relative; }
+  .contact-links{ display:flex; flex-direction:column; gap:14px; position:relative; }
+  .contact-links a{
+    font-family:'IBM Plex Mono', monospace; font-size:14px; text-decoration:none; color:var(--paper);
+    display:flex; align-items:center; gap:10px; border-bottom:1px solid #2A3038; padding-bottom:10px;
+    transition:color 0.2s ease, padding-left 0.2s ease;
+  }
+  .contact-links a:hover{ color:var(--amber); padding-left:6px; }
+  .contact-links .lbl{ color:#7B838C; width:64px; flex-shrink:0; }
+
+  footer{ padding:28px 0 40px; text-align:center; font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--wire); }
+
+  /* tooltip for pipeline nodes */
+  .tooltip{
+    position:absolute; background:var(--ink-2); border:1px solid var(--teal); color:var(--paper);
+    font-family:'IBM Plex Mono', monospace; font-size:11px; padding:8px 12px; border-radius:3px;
+    pointer-events:none; opacity:0; transform:translateY(4px); transition:opacity 0.15s ease, transform 0.15s ease;
+    white-space:nowrap; z-index:10;
+  }
+  .tooltip.show{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <nav>
+    <div class="logo">Tanvi<span> </span>Pandey</div>
+    <ul class="nav-links">
+      <li><a href="#work" data-nav>Work</a></li>
+      <li><a href="#about" data-nav>About</a></li>
+      <li><a href="#contact" data-nav>Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Get in touch</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="eyebrow" style="color:var(--amber);">CS undergrad · Data Science &amp; Full-Stack</div>
+        <div class="role-line"><span id="roleText">ML Engineer</span><span class="cursor"></span></div>
+        <h1>I turn data into <em>working products</em>, not just notebooks.</h1>
+        <p class="lede">From ML models and NLP pipelines to production apps in React, Flask, and Flutter — I build the full path from raw data to something people actually use.</p>
+        <div class="hero-ctas">
+          <a class="btn-primary" href="#work">See my work →</a>
+          <a class="btn-secondary" href="#contact">Contact me</a>
+        </div>
+      </div>
+
+      <div class="pipeline-box">
+        <div class="cap">// how a project moves through my hands</div>
+        <div class="hint">hover a node ↴</div>
+        <svg class="pipeline" viewBox="0 0 580 220" xmlns="http://www.w3.org/2000/svg">
+          <path class="pipe-line" d="M20,110 C 110,110 110,30 200,30 S 290,190 380,190 S 460,110 550,110" />
+
+          <g class="node-group" data-tip="Messy, real-world data. Reviews, user inputs, raw records.">
+            <circle class="node-circle" cx="20" cy="110" r="9"/>
+            <text class="node-label" x="20" y="140" text-anchor="middle">Data</text>
+            <text class="node-sub" x="20" y="153" text-anchor="middle">raw · messy</text>
+          </g>
+
+          <g class="node-group" data-tip="Scikit-learn, NLP, TF-IDF — trained until the numbers hold up.">
+            <circle class="node-circle" cx="200" cy="30" r="9"/>
+            <text class="node-label" x="200" y="16" text-anchor="middle">Model</text>
+            <text class="node-sub" x="200" y="60" text-anchor="middle">ML / NLP</text>
+          </g>
+
+          <g class="node-group" data-tip="Flutter for mobile, React for web — the model gets a face.">
+            <circle class="node-circle" cx="380" cy="190" r="9"/>
+            <text class="node-label" x="380" y="210" text-anchor="middle">App</text>
+            <text class="node-sub" x="380" y="167" text-anchor="middle">Flutter / React</text>
+          </g>
+
+          <g class="node-group" data-tip="Someone taps a button and the whole pipeline behind it disappears.">
+            <circle class="node-circle" cx="550" cy="110" r="9"/>
+            <text class="node-label" x="550" y="140" text-anchor="middle">You</text>
+            <text class="node-sub" x="550" y="153" text-anchor="middle">using it</text>
+          </g>
+
+          <circle class="pipe-dot motion-path" r="5"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="divider"></div>
+
+    <section id="work">
+      <div class="section-head reveal">
+        <div class="eyebrow">Selected work</div>
+        <h2>Proof, not promises</h2>
+      </div>
+
+      <div class="cell reveal">
+        <span class="cell-num">01</span>
+        <div class="cell-head">
+          <span><span class="prompt">In [1]:</span> current — Onyatrips</span>
+          <span class="live-badge"><span class="live-dot"></span>live build</span>
+        </div>
+        <div class="cell-body">
+          <h3>Travel-booking app — Onyatrips</h3>
+          <p>Building the startup's core cross-platform mobile app end to end — from UI screens to API-backed data flow, shipped in active sprints alongside the founding team.</p>
+          <div class="tags">
+            <span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">React.js</span><span class="tag">REST APIs</span>
+          </div>
+          <div class="result">Single codebase powering both Android and iOS screens</div>
+        </div>
+      </div>
+
+      <div class="cell reveal">
+        <span class="cell-num">02</span>
+        <div class="cell-head"><span><span class="prompt">In [2]:</span> project — career_advisor.py</span></div>
+        <div class="cell-body">
+          <h3>AI-Powered Career Recommendation System</h3>
+          <p>Full-stack guidance system pairing a React front end with a Flask backend. A Random Forest model reads a user's inputs and returns data-driven career suggestions, backed by a Groq-powered chatbot for follow-up questions.</p>
+          <div class="tags">
+            <span class="tag">React.js</span><span class="tag">Flask</span><span class="tag">Scikit-learn</span><span class="tag">Groq API</span><span class="tag">Git LFS</span>
+          </div>
+          <div class="result">Chatbot responses returned in under 200ms</div>
+          <div class="cell-links"><a href="https://github.com/TanviPandey10/Career_Advisor" target="_blank" rel="noopener">github.com/TanviPandey10/Career_Advisor</a></div>
+        </div>
+      </div>
+
+      <div class="cell reveal">
+        <span class="cell-num">03</span>
+        <div class="cell-head"><span><span class="prompt">In [3]:</span> project — review_sentiment.ipynb</span></div>
+        <div class="cell-body">
+          <h3>Amazon Review Sentiment &amp; Rating Prediction</h3>
+          <p>Cleaned, tokenized, and vectorized 10,000+ product reviews with TF-IDF, then benchmarked four models — Logistic Regression, SVM, Random Forest, and Naive Bayes — to predict star ratings from raw text.</p>
+          <div class="tags">
+            <span class="tag">NLP</span><span class="tag">TF-IDF</span><span class="tag">Scikit-learn</span><span class="tag">EDA</span>
+          </div>
+          <div class="result">71.59% accuracy with Logistic Regression, best of 4 models tested</div>
+          <div class="cell-links"><a href="https://github.com/TanviPandey10/review-sentiment-analysis-main" target="_blank" rel="noopener">github.com/TanviPandey10/review-sentiment-analysis-main</a></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="about">
+      <div class="section-head reveal">
+        <div class="eyebrow">About</div>
+        <h2>Who's building this</h2>
+      </div>
+      <div class="about-grid">
+        <div class="reveal">
+          <p>I'm a Computer Science undergrad specializing in Data Science at PSIT, Kanpur — currently interning as an ML Engineer at Flyrank AI and as an App Developer at Onyatrips, where I split my time between training models and shipping the apps that use them.</p>
+          <p>I like problems that touch both ends: the messy data side and the part a real person eventually taps on their phone. 500+ LeetCode problems keep the fundamentals sharp; the internships keep the work grounded in what actually ships.</p>
+          <div class="edu-line"><strong>B.Tech, Computer Science (Data Science)</strong> — Pranveer Singh Institute of Technology, Kanpur · 2023–2027</div>
+        </div>
+        <div class="reveal">
+          <div class="skill-group">
+            <div class="k">Build</div>
+            <div class="skill-chips">
+              <span class="chip">React.js</span><span class="chip">Flutter / Dart</span><span class="chip">Flask</span><span class="chip">Node.js</span><span class="chip">MongoDB</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="k">Model</div>
+            <div class="skill-chips">
+              <span class="chip">Scikit-learn</span><span class="chip">NLP</span><span class="chip">LangChain / RAG</span><span class="chip">Pandas / NumPy</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="k">Foundations</div>
+            <div class="skill-chips">
+              <span class="chip">DSA</span><span class="chip">OOP</span><span class="chip">DBMS</span><span class="chip">OS &amp; Networks</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section id="contact">
+      <div class="contact-box reveal">
+        <div>
+          <h2>Have a role or a problem worth building for?</h2>
+          <p>I'm open to internships and collaborations where the work is real and something ships at the end of it. Reach out directly — I read everything myself.</p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:tanvipandey66@gmail.com"><span class="lbl">Email</span> tanvipandey66@gmail.com</a>
+          <a href="https://linkedin.com/in/TanviPandey10" target="_blank" rel="noopener"><span class="lbl">LinkedIn</span> /TanviPandey10</a>
+          <a href="https://github.com/TanviPandey10" target="_blank" rel="noopener"><span class="lbl">GitHub</span> /TanviPandey10</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>Built by Tanvi Pandey — data → model → app → you.</footer>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+  // Nav background toggle on scroll
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Active nav link on scroll
+  const navLinks = document.querySelectorAll('[data-nav]');
+  const sections = ['work','about','contact'].map(id => document.getElementById(id));
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`[data-nav][href="#${entry.target.id}"]`);
+        if(active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => s && navObserver.observe(s));
+
+  // Reveal on scroll
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Typewriter role line
+  const roles = ["ML Engineer", "Full-Stack Developer", "App Builder", "Data Scientist"];
+  const roleEl = document.getElementById('roleText');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!prefersReduced){
+    let ri = 0, ci = 0, deleting = false;
+    function tick(){
+      const word = roles[ri];
+      if(!deleting){
+        ci++;
+        roleEl.textContent = word.slice(0, ci);
+        if(ci === word.length){ deleting = true; setTimeout(tick, 1400); return; }
+      } else {
+        ci--;
+        roleEl.textContent = word.slice(0, ci);
+        if(ci === 0){ deleting = false; ri = (ri+1) % roles.length; }
+      }
+      setTimeout(tick, deleting ? 40 : 70);
+    }
+    setTimeout(tick, 900);
+  }
+
+  // Pipeline node tooltips
+  const tooltip = document.getElementById('tooltip');
+  document.querySelectorAll('.node-group').forEach(node => {
+    node.addEventListener('mousemove', (e) => {
+      tooltip.textContent = node.getAttribute('data-tip');
+      tooltip.style.left = (e.pageX + 14) + 'px';
+      tooltip.style.top = (e.pageY - 14) + 'px';
+      tooltip.classList.add('show');
+    });
+    node.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
+  });
+</script>
+
+</body>
+</html>
